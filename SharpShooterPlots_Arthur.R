@@ -27,7 +27,7 @@ CharLevel = 4
 MW_Mod    = 1      # magic weapon to-hit and damage modifier
 ddk       = 10     # number of sides on damage dice
 NWpnDice  = 1      # number of dice rolled for standard weapon damage
-SteelDef  = TRUE   # should the Steel Defender also attack? 
+SteelDef  = FALSE   # should the Steel Defender also attack? 
 
 ## --- Set Global Parameters
 Nsim      = 100000 # number of simulations

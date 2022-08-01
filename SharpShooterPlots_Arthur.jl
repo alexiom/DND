@@ -14,7 +14,6 @@ include(codedir*CharName*"CombatDGP.jl")
 ## --- Include code that creates Sharpshooter Plots
 include(codedir*"CreateSharpshooterPlots.jl")
 
-
 # ==================================================================================== #
 #                         Generate Data and Create Plot                                #
 # ==================================================================================== #
