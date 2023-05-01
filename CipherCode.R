@@ -12,38 +12,37 @@
 ################################################################################
 
 
-
-char2listvec = function(phrase){
+char2veclist = function(phrases){
   
-  if (length(phrase)==1) {
+  if (length(phrases)==1) {
     ## --- If only one phrase, return as character vector
-    N   = nchar(phrase)                               # num of chars in phrase
+    N   = nchar(phrases)                               # num of chars in phrase
     
     # if N == 0, return "", otherwise set make phrase a character vector
     if (N==0) {
       out = ""
     } else {
-      out = sapply(1:N,function(x){substr(phrase,x,x)})
+      out = sapply(1:N,function(x){substr(phrases,x,x)})
     }
     
     out = list(out)
-    names(out) = phrase
+    names(out) = phrases
     
-  } else if (length(phrase)>1) {
+  } else if (length(phrases)>1) {
     ## --- If multiple phrases, return a list of character vectors
-    K          = length(phrase)  # set number of phrases
-    out        = as.list(phrase) # preallocate list
-    names(out) = phrase          # set names of list elements as the phrases
+    K          = length(phrases)  # set number of phrases
+    out        = as.list(phrases) # preallocate list
+    names(out) = phrases          # set names of list elements as the phrases
     
     # loop over phrases
     for (i in 1:K) {
       # this code is identical to the code in the if statement above except 
       # that we are doing it for the ith value in phrase
-      N = nchar(phrase[i])     
+      N = nchar(phrases[i])     
       if (N==0) {
         out[[i]] = ""
       } else {
-        out[[i]] = sapply(1:N,function(x){substr(phrase[i],x,x)})
+        out[[i]] = sapply(1:N,function(x){substr(phrases[i],x,x)})
       }
       
     }
@@ -108,8 +107,8 @@ cipher = function(phrase, in1let, decrypt = T, add_space=T, match_cap = F){
   }
   
   ## --- Make phrase and PHRASE into list of vectors of each character
-  phrase_vec = char2listvec(phrase)
-  PHRASE_vec = char2listvec(PHRASE)
+  phrase_vec = char2veclist(phrase)
+  PHRASE_vec = char2veclist(PHRASE)
   
   ## --- preallocate id vector to store letter ids
   ids_out = lapply(1:N,function(i){rep(0, length(PHRASE_vec[[i]]))})
