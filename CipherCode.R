@@ -12,44 +12,23 @@
 ################################################################################
 
 
-char2veclist = function(phrases){
+char2vectlist = function(phrases){
   
-  if (length(phrases)==1) {
-    ## --- If only one phrase, return as character vector
-    N   = nchar(phrases)                               # num of chars in phrase
-    
-    # if N == 0, return "", otherwise set make phrase a character vector
-    if (N==0) {
-      out = ""
-    } else {
-      out = sapply(1:N,function(x){substr(phrases,x,x)})
-    }
-    
-    out = list(out)
-    names(out) = phrases
-    
-  } else if (length(phrases)>1) {
-    ## --- If multiple phrases, return a list of character vectors
-    K          = length(phrases)  # set number of phrases
-    out        = as.list(phrases) # preallocate list
-    names(out) = phrases          # set names of list elements as the phrases
-    
-    # loop over phrases
-    for (i in 1:K) {
-      # this code is identical to the code in the if statement above except 
-      # that we are doing it for the ith value in phrase
-      N = nchar(phrases[i])     
-      if (N==0) {
-        out[[i]] = ""
-      } else {
-        out[[i]] = sapply(1:N,function(x){substr(phrases[i],x,x)})
-      }
-      
-    }
-  } else {
-    ## --- If phrase is length 0, return empty character value
-    out = character()
+  ## --- If phrases is length 0 or not a character vector, return an error
+  if( length(phrases)==0 | class(phrases) != class("a") ) {
+    stop("Argument 'phrases' must be a character vector of positive length.")
   }
+  
+  if("" %in% phrases){
+    warning("Empty string \"\" in phrases vector. Converting \"\" to \" \".")
+  }
+  
+  ## --- Create output list which is a list of character vectors with each
+  #      element is a letter of the character vector
+  
+  phrases[phrases == ""] = " "                  # replace "" with " "
+  out                    = strsplit(phrases,"") # split each string by character 
+  names(out)             = phrases              # set out names as phrases
   
   ## --- return the value of out
   return(out)
@@ -80,6 +59,8 @@ cipher = function(phrase, in1let, decrypt = T, add_space=T, match_cap = F){
   # - Create capitalized version of phrase called PHRASE
   # - Ensure in1let is uppercase with no white space
   # - Set outer as capital letter vector LETTERS
+  phrase = gsub("[[:punct:]]+","",phrase) # remove punctuation from phrases
+  
   N      = length(phrase)
   PHRASE = trimws(toupper(phrase)) # create uppercase version of phrase
   in1let = trimws(toupper(in1let)) # guarantee in1let is uppercase with no ws
@@ -107,8 +88,8 @@ cipher = function(phrase, in1let, decrypt = T, add_space=T, match_cap = F){
   }
   
   ## --- Make phrase and PHRASE into list of vectors of each character
-  phrase_vec = char2veclist(phrase)
-  PHRASE_vec = char2veclist(PHRASE)
+  phrase_vec = char2vectlist(phrase)
+  PHRASE_vec = char2vectlist(PHRASE)
   
   ## --- preallocate id vector to store letter ids
   ids_out = lapply(1:N,function(i){rep(0, length(PHRASE_vec[[i]]))})
